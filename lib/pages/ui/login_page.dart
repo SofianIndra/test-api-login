@@ -19,8 +19,8 @@ class _LoginPageState extends State<LoginPage> {
 
     handleSignIn() async {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      print(usernameController.text);
-      print(passwordController.text);
+      // print(usernameController.text);
+      // print(passwordController.text);
       if (await authProvider.login(
         username: usernameController.text,
         password: passwordController.text,
@@ -79,6 +79,8 @@ class _LoginPageState extends State<LoginPage> {
                   'Create a new account',
                   style: TextStyle(
                     color: Colors.black,
+                    fontSize: 18,
+                    decoration: TextDecoration.underline,
                   ),
                 ),
               )

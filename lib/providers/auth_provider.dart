@@ -49,7 +49,6 @@ class AuthProvider with ChangeNotifier {
       _user = user;
       return true;
     } catch (e) {
-      print(e);
       return false;
     }
   }
