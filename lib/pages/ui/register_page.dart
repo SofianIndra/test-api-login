@@ -3,6 +3,7 @@ import 'package:test_login_api/models/user_model.dart';
 import 'package:test_login_api/pages/widget/button_widget.dart';
 import 'package:test_login_api/pages/widget/textfield_widget.dart';
 import 'package:test_login_api/services/auth_service.dart';
+import 'package:uuid/uuid.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -14,23 +15,22 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
-    final roleIdController = TextEditingController(text: '');
-    final codeController = TextEditingController(text: '');
     final nameController = TextEditingController(text: '');
     final usernameController = TextEditingController(text: '');
     final emailController = TextEditingController(text: '');
-    final aliasController = TextEditingController(text: '');
     final passwordController = TextEditingController(text: '');
+    final confirmPasswordController = TextEditingController(text: '');
+    var id = Uuid().v4().replaceAll('-', '').substring(0, 3);
 
     void handleRegister() async {
       bool response = await AuthService().register(
         UserModel(
-          roleId: int.tryParse(roleIdController.text),
-          code: codeController.text,
+          roleId: 29,
+          code: 'SM-$id',
           name: nameController.text,
           username: usernameController.text,
           email: emailController.text,
-          alias: aliasController.text,
+          alias: nameController.text.substring(0, 3).toUpperCase(),
           password: passwordController.text,
           isActive: true,
           createdBy: nameController.text,
@@ -41,7 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
           SnackBar(
             backgroundColor: Colors.green,
             content: Text(
-              'Register Berhasil!',
+              'Register Success!',
               textAlign: TextAlign.center,
             ),
           ),
@@ -51,7 +51,7 @@ class _RegisterPageState extends State<RegisterPage> {
           SnackBar(
             backgroundColor: Colors.red,
             content: Text(
-              'Gagal Register!',
+              'Register Failed!',
               textAlign: TextAlign.center,
             ),
           ),
@@ -85,17 +85,11 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(
                   height: 30,
                 ),
-                //ROLE ID
+                //USERNAME
                 TextfieldWidget(
-                  controller: roleIdController,
-                  title: 'Role ID',
-                  hintText: "Masukan Role ID",
-                ),
-                //CODE
-                TextfieldWidget(
-                  controller: codeController,
-                  title: 'Code',
-                  hintText: "Masukan Code",
+                  controller: usernameController,
+                  title: 'Username',
+                  hintText: "Masukan Username",
                 ),
                 //NAME
                 TextfieldWidget(
@@ -103,23 +97,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   title: 'Name',
                   hintText: "Masukan Name",
                 ),
-                //USERNAME
-                TextfieldWidget(
-                  controller: usernameController,
-                  title: 'Username',
-                  hintText: "Masukan Username",
-                ),
                 //EMAIL
                 TextfieldWidget(
                   controller: emailController,
                   title: 'Email Address',
                   hintText: "Masukan Email",
-                ),
-                //ALIAS
-                TextfieldWidget(
-                  controller: aliasController,
-                  title: 'Alias',
-                  hintText: "Masukan Alias",
                 ),
                 //PASSWORD
                 TextfieldWidget(
@@ -127,12 +109,51 @@ class _RegisterPageState extends State<RegisterPage> {
                   title: 'Password',
                   hintText: "Masukan Password",
                 ),
+                //CONFIRM PASSWORD
+                TextfieldWidget(
+                  controller: confirmPasswordController,
+                  title: 'Confirm Password',
+                  hintText: "Masukan Password",
+                ),
                 SizedBox(
                   height: 16,
                 ),
                 ButtonWidget(
                   onTap: () {
-                    handleRegister();
+                    if (passwordController.text !=
+                        confirmPasswordController.text) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text(
+                            'Password do not match',
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      );
+                    } else if (usernameController.text.isEmpty ||
+                        nameController.text.isEmpty ||
+                        emailController.text.isEmpty ||
+                        passwordController.text.isEmpty ||
+                        confirmPasswordController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          backgroundColor: Colors.red,
+                          content: Text(
+                            'Please insert all field',
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      );
+                    } else {
+                      handleRegister();
+                      nameController.clear();
+                      usernameController.clear();
+                      nameController.clear();
+                      emailController.clear();
+                      passwordController.clear();
+                      confirmPasswordController.clear();
+                    }
                   },
                   title: 'Register',
                 ),
