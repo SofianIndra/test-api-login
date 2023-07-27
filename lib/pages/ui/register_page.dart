@@ -31,10 +31,8 @@ class RegisterPage extends StatelessWidget {
         ),
       );
     }
-    //====================  EndMethod  =======================
 
-    //=======================  Event  ========================
-    void registerButton() async {
+    void postRegisterData() async {
       bool response = await AuthService().register(
         SignUpFormModel(
           roleId: 31,
@@ -58,6 +56,44 @@ class RegisterPage extends StatelessWidget {
           Colors.red,
           'Register Failed',
         );
+      }
+    }
+    //====================  EndMethod  =======================
+
+    //=======================  Event  ========================
+    void registerButton() async {
+      if (passwordController.text != confirmPasswordController.text) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+              'Password do not match',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      } else if (usernameController.text.isEmpty ||
+          nameController.text.isEmpty ||
+          emailController.text.isEmpty ||
+          passwordController.text.isEmpty ||
+          confirmPasswordController.text.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(
+              'Please insert all field',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
+      } else {
+        postRegisterData();
+        nameController.clear();
+        usernameController.clear();
+        nameController.clear();
+        emailController.clear();
+        passwordController.clear();
+        confirmPasswordController.clear();
       }
     }
     //====================  EndEvent  ========================
@@ -123,40 +159,7 @@ class RegisterPage extends StatelessWidget {
                 ),
                 ButtonWidget(
                   onTap: () {
-                    if (passwordController.text !=
-                        confirmPasswordController.text) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Text(
-                            'Password do not match',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      );
-                    } else if (usernameController.text.isEmpty ||
-                        nameController.text.isEmpty ||
-                        emailController.text.isEmpty ||
-                        passwordController.text.isEmpty ||
-                        confirmPasswordController.text.isEmpty) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          backgroundColor: Colors.red,
-                          content: Text(
-                            'Please insert all field',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      );
-                    } else {
-                      registerButton();
-                      nameController.clear();
-                      usernameController.clear();
-                      nameController.clear();
-                      emailController.clear();
-                      passwordController.clear();
-                      confirmPasswordController.clear();
-                    }
+                    registerButton();
                   },
                   title: 'Register',
                 ),

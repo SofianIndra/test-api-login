@@ -42,6 +42,14 @@ class ChangePasswordPage extends StatelessWidget {
           Colors.green,
           'Change Password Success',
         );
+        passwordController.clear();
+        newPasswordController.clear();
+      } else if (passwordController.text.isEmpty ||
+          newPasswordController.text.isEmpty) {
+        showSnackbar(
+          Colors.red,
+          'Please insert all field',
+        );
       } else {
         showSnackbar(
           Colors.red,
