@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:test_login_api/pages/ui/change_password_page.dart';
 
 import '../pages/ui/add_page.dart';
 import '../pages/ui/admin_page.dart';
@@ -20,4 +21,5 @@ var customList = <String, WidgetBuilder>{
   '/edit': (context) => EditPage(),
   '/print': (context) => PrintPage(),
   '/export': (context) => ExportPage(),
+  '/password': (context) => ChangePasswordPage(),
 };

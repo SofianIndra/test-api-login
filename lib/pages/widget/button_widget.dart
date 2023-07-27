@@ -18,6 +18,9 @@ class ButtonWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
+          margin: EdgeInsets.only(
+            top: 30,
+          ),
           height: 60,
           width: double.infinity,
           decoration: BoxDecoration(

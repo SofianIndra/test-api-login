@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:test_login_api/models/change_password_model.dart';
 import 'package:test_login_api/models/sign_in_form_model.dart';
 import 'package:test_login_api/models/sign_up_form_model.dart';
 import 'package:test_login_api/models/user_model.dart';
@@ -117,5 +118,27 @@ class AuthService {
   Future<void> clearLocalStorage() async {
     const storage = FlutterSecureStorage();
     await storage.deleteAll();
+  }
+
+  // Change Password
+  Future<bool> changePassword(ChangePasswordModel data) async {
+    final token = await AuthService().getToken();
+    var url = '$baseUrl/ms-user/password';
+    var body = jsonEncode(data.toJson());
+
+    var res = await http.put(
+      Uri.parse(url),
+      headers: {
+        'Content-type': 'application/json',
+        'Authorization': token,
+      },
+      body: body,
+    );
+
+    if (res.statusCode == 204) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

@@ -56,6 +56,10 @@ class _HomePageState extends State<HomePage> {
           context, msUserProvider.msUser.roleId, moduleId);
       Navigator.pushNamed(context, '/admin');
     }
+
+    void changePasswordButton() {
+      Navigator.pushNamed(context, '/password');
+    }
     //====================  EndEvent  ========================
 
     return Scaffold(
@@ -74,9 +78,7 @@ class _HomePageState extends State<HomePage> {
                     fontSize: 32,
                   ),
                 ),
-                SizedBox(
-                  height: 30,
-                ),
+
                 //Logout Button
                 ButtonWidget(
                   onTap: () {
@@ -84,9 +86,7 @@ class _HomePageState extends State<HomePage> {
                   },
                   title: 'Log Out',
                 ),
-                SizedBox(
-                  height: 30,
-                ),
+
                 //Profile Button
                 ButtonWidget(
                   onTap: () {
@@ -94,15 +94,20 @@ class _HomePageState extends State<HomePage> {
                   },
                   title: 'Profile Page',
                 ),
-                SizedBox(
-                  height: 30,
-                ),
+
                 //Admin Button
                 ButtonWidget(
                   onTap: () {
                     adminButton();
                   },
                   title: 'Admin Page',
+                ),
+                //ChangePassword Button
+                ButtonWidget(
+                  onTap: () {
+                    changePasswordButton();
+                  },
+                  title: 'Change Password',
                 ),
               ],
             ),

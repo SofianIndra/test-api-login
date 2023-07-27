@@ -34,10 +34,10 @@ class RegisterPage extends StatelessWidget {
     //====================  EndMethod  =======================
 
     //=======================  Event  ========================
-    void handleRegister() async {
+    void registerButton() async {
       bool response = await AuthService().register(
         SignUpFormModel(
-          roleId: 29,
+          roleId: 31,
           code: 'SM-$id',
           name: nameController.text,
           username: usernameController.text,
@@ -149,7 +149,7 @@ class RegisterPage extends StatelessWidget {
                         ),
                       );
                     } else {
-                      handleRegister();
+                      registerButton();
                       nameController.clear();
                       usernameController.clear();
                       nameController.clear();
