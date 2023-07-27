@@ -7,10 +7,10 @@ class MsRoleProvider with ChangeNotifier {
 
   MsRoleModel get msRoleTest => _msRoleTest;
 
+  // Get MsRole data from API
   Future<void> getMsRole(BuildContext context, roleId) async {
     try {
       _msRoleTest = await MsRoleService().getRole(context, roleId);
-      print(_msRoleTest.roleName);
       notifyListeners();
     } catch (e) {
       // print(e);

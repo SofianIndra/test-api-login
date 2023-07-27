@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:test_login_api/models/sign_in_form_model.dart';
+import 'package:test_login_api/models/sign_up_form_model.dart';
 import 'package:test_login_api/models/user_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,7 +11,8 @@ import '../models/token_model.dart';
 import '../theme/theme.dart';
 
 class AuthService {
-  Future<TokenModel> login(UserModel data) async {
+  // Login Service
+  Future<TokenModel> login(SignInFormModel data) async {
     var url = '$baseUrl/ms-user/token';
     var formData = FormData.fromMap(
       data.toJson(),
@@ -22,24 +25,21 @@ class AuthService {
       data: formData,
     );
 
-    // print(response.data);
-
     if (response.statusCode == 200) {
-      // var data = jsonDecode(response.data);
       TokenModel token = TokenModel.fromJson(response.data);
 
       // Save Token to Local Storage
       await storeTokenToLocal(token);
 
       token.accessToken = 'Bearer ${token.accessToken}';
-      // print(token.accessToken);
       return token;
     } else {
       throw jsonDecode(response.data)['message'];
     }
   }
 
-  Future register(UserModel data) async {
+  // Register Service
+  Future register(SignUpFormModel data) async {
     var url = '$baseUrl/ms-user/';
     var body = jsonEncode(data.toJson());
     var headers = {'Content-type': 'application/json'};
@@ -50,9 +50,6 @@ class AuthService {
       body: body,
     );
 
-    // print(res.body);
-    // print(res.statusCode);
-
     if (res.statusCode == 201) {
       return true;
     } else {
@@ -60,6 +57,7 @@ class AuthService {
     }
   }
 
+  // Store token to Local Storage
   Future<void> storeTokenToLocal(TokenModel data) async {
     try {
       const storage = FlutterSecureStorage();
@@ -69,6 +67,7 @@ class AuthService {
     }
   }
 
+  // Store Credential to Local Storage
   Future<void> storeCredentialToLocal(UserModel data) async {
     try {
       const storage = FlutterSecureStorage();
@@ -79,6 +78,7 @@ class AuthService {
     }
   }
 
+  // Get Credeential from local
   Future<UserModel> getCredentialFromLocal() async {
     try {
       const storage = FlutterSecureStorage();
@@ -99,6 +99,7 @@ class AuthService {
     }
   }
 
+  // Get token from local
   Future<String> getToken() async {
     String token = '';
 
@@ -112,6 +113,7 @@ class AuthService {
     return token;
   }
 
+  // Clear local Storage
   Future<void> clearLocalStorage() async {
     const storage = FlutterSecureStorage();
     await storage.deleteAll();

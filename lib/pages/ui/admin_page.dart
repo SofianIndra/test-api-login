@@ -3,34 +3,16 @@ import 'package:provider/provider.dart';
 import 'package:test_login_api/pages/widget/button_widget.dart';
 import 'package:test_login_api/providers/ms_role_detail_provider.dart';
 
-import '../../providers/ms_user_provider.dart';
-
-class AdminPage extends StatefulWidget {
+class AdminPage extends StatelessWidget {
   const AdminPage({super.key});
 
   @override
-  State<AdminPage> createState() => _AdminPageState();
-}
-
-class _AdminPageState extends State<AdminPage> {
-  @override
-  void initState() {
-    int moduleId = 37;
-    final msRoleDetailProvider =
-        Provider.of<MsRoleDetailProvider>(context, listen: false);
-    final msUserProvider = Provider.of<MsUserProvider>(context, listen: false);
-
-    msRoleDetailProvider.getMsRoleDetailFilter(
-        context, msUserProvider.msUser.roleId, moduleId);
-    print(msUserProvider.msUser.roleId);
-    print(moduleId);
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    //======================  Variable  ======================
     final msRoleDetailProvider = Provider.of<MsRoleDetailProvider>(context);
     final roleDetail = msRoleDetailProvider.msRoleDetail;
+    //====================  EndVariable  =====================
+
     return roleDetail.view == true
         ? Scaffold(
             backgroundColor: Colors.deepPurple,

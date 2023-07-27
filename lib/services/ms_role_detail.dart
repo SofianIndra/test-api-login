@@ -8,6 +8,7 @@ import '../theme/theme.dart';
 import 'auth_service.dart';
 
 class MsRoleDetailService {
+  // Get MsRoleDetail data with roleId and moduleId Filter
   Future<MsRoleDetailModel> getRoleDetailFilter(
       BuildContext context, roleId, moduleId) async {
     final token = await AuthService().getToken();
@@ -17,14 +18,9 @@ class MsRoleDetailService {
         headers: {'Authorization': token},
       );
 
-      // print(token);
-
-      print(res.body);
-
       if (res.statusCode == 200) {
         MsRoleDetailModel data =
             MsRoleDetailModel.fromJson(jsonDecode(res.body));
-
         return data;
       }
       throw jsonDecode(res.body)['message'];

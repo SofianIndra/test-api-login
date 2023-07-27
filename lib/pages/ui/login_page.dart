@@ -14,30 +14,49 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
+    //======================  Variable  ======================
     final usernameController = TextEditingController(text: '');
     final passwordController = TextEditingController(text: '');
+    //====================  EndVariable  =====================
 
-    handleSignIn() async {
+    //======================  Method  ========================
+    void showSnackbar(color, title) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: color,
+          content: Text(
+            title,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
+
+    void loginSuccess() {
+      Navigator.pushNamed(context, '/home');
+    }
+    //====================  EndMethod  =======================
+
+    //=======================  Event  ========================
+    void signInButton() async {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      // print(usernameController.text);
-      // print(passwordController.text);
       if (await authProvider.login(
         username: usernameController.text,
         password: passwordController.text,
       )) {
-        Navigator.pushNamed(context, '/home');
+        loginSuccess();
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(
-              'Gagal Login!',
-              textAlign: TextAlign.center,
-            ),
-          ),
+        showSnackbar(
+          Colors.red,
+          'Wrong username or Password',
         );
       }
     }
+
+    void registerButton() {
+      Navigator.pushNamed(context, '/register');
+    }
+    //====================  EndEvent  ========================
 
     return Scaffold(
       backgroundColor: Colors.blue,
@@ -64,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               ButtonWidget(
                 onTap: () {
-                  handleSignIn();
+                  signInButton();
                 },
                 title: 'Login',
               ),
@@ -73,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/register');
+                  registerButton();
                 },
                 child: Text(
                   'Create a new account',

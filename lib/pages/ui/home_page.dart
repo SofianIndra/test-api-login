@@ -4,6 +4,7 @@ import 'package:test_login_api/pages/widget/button_widget.dart';
 import 'package:test_login_api/providers/ms_user_provider.dart';
 import 'package:test_login_api/services/auth_service.dart';
 
+import '../../providers/ms_role_detail_provider.dart';
 import '../../providers/ms_role_provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,18 +15,48 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //======================  Override  ======================
   @override
   void initState() {
     final msUserProvider = Provider.of<MsUserProvider>(context, listen: false);
     msUserProvider.getMsUserApi();
-
     super.initState();
   }
+  //====================  EndOverride  =====================
 
   @override
   Widget build(BuildContext context) {
+    //======================  Variable  ======================
     final msRoleProvider = Provider.of<MsRoleProvider>(context, listen: false);
     final msUserProvider = Provider.of<MsUserProvider>(context, listen: false);
+    final msRoleDetailProvider =
+        Provider.of<MsRoleDetailProvider>(context, listen: false);
+    //====================  EndVariable  =====================
+
+    //======================  Method  ========================
+    void clearLocalStorage() async {
+      await AuthService().clearLocalStorage();
+    }
+    //====================  EndMethod  =======================
+
+    //=======================  Event  ========================
+    void logOutButton() {
+      clearLocalStorage();
+      Navigator.pushNamed(context, '/');
+    }
+
+    void profileButton() {
+      Navigator.pushNamed(context, '/profile');
+      msRoleProvider.getMsRole(context, msUserProvider.msUser.roleId);
+    }
+
+    void adminButton() {
+      int moduleId = 37;
+      msRoleDetailProvider.getMsRoleDetailFilter(
+          context, msUserProvider.msUser.roleId, moduleId);
+      Navigator.pushNamed(context, '/admin');
+    }
+    //====================  EndEvent  ========================
 
     return Scaffold(
       backgroundColor: Colors.green,
@@ -48,9 +79,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 //Logout Button
                 ButtonWidget(
-                  onTap: () async {
-                    await AuthService().clearLocalStorage();
-                    Navigator.pushNamed(context, '/');
+                  onTap: () {
+                    logOutButton();
                   },
                   title: 'Log Out',
                 ),
@@ -60,11 +90,7 @@ class _HomePageState extends State<HomePage> {
                 //Profile Button
                 ButtonWidget(
                   onTap: () {
-                    Navigator.pushNamed(context, '/profile');
-
-                    msRoleProvider.getMsRole(
-                        context, msUserProvider.msUser.roleId);
-                    // print(msRoleProvider.msRole.roleName);
+                    profileButton();
                   },
                   title: 'Profile Page',
                 ),
@@ -74,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                 //Admin Button
                 ButtonWidget(
                   onTap: () {
-                    Navigator.pushNamed(context, '/admin');
+                    adminButton();
                   },
                   title: 'Admin Page',
                 ),

@@ -8,6 +8,7 @@ class MsRoleDetailProvider with ChangeNotifier {
 
   MsRoleDetailModel get msRoleDetail => _msRoleDetail;
 
+  // Get MsRoleDetailFilter Data from API
   Future<void> getMsRoleDetailFilter(
       BuildContext context, roleId, moduleId) async {
     try {

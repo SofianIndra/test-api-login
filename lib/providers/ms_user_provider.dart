@@ -8,10 +8,10 @@ class MsUserProvider with ChangeNotifier {
 
   UserModel get msUser => _msUser;
 
+  // Get MsUser data from API
   Future<void> getMsUserApi() async {
     try {
       _msUser = await MsUserService().getUser();
-      print(_msUser.isActive);
       notifyListeners();
     } catch (e) {
       // print(e);

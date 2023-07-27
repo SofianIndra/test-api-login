@@ -1,30 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:test_login_api/models/user_model.dart';
+import 'package:test_login_api/models/sign_up_form_model.dart';
 import 'package:test_login_api/pages/widget/button_widget.dart';
 import 'package:test_login_api/pages/widget/textfield_widget.dart';
 import 'package:test_login_api/services/auth_service.dart';
 import 'package:uuid/uuid.dart';
 
-class RegisterPage extends StatefulWidget {
+class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _RegisterPageState();
-}
-
-class _RegisterPageState extends State<RegisterPage> {
-  @override
   Widget build(BuildContext context) {
+    //======================  Variable  ======================
     final nameController = TextEditingController(text: '');
     final usernameController = TextEditingController(text: '');
     final emailController = TextEditingController(text: '');
     final passwordController = TextEditingController(text: '');
     final confirmPasswordController = TextEditingController(text: '');
     var id = Uuid().v4().replaceAll('-', '').substring(0, 3);
+    //====================  EndVariable  =====================
 
+    //======================  Method  ========================
+    void showSnackbar(color, title) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: color,
+          content: Text(
+            title,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
+    //====================  EndMethod  =======================
+
+    //=======================  Event  ========================
     void handleRegister() async {
       bool response = await AuthService().register(
-        UserModel(
+        SignUpFormModel(
           roleId: 29,
           code: 'SM-$id',
           name: nameController.text,
@@ -37,27 +49,18 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       );
       if (response) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.green,
-            content: Text(
-              'Register Success!',
-              textAlign: TextAlign.center,
-            ),
-          ),
+        showSnackbar(
+          Colors.green,
+          'Register Success',
         );
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(
-              'Register Failed!',
-              textAlign: TextAlign.center,
-            ),
-          ),
+        showSnackbar(
+          Colors.red,
+          'Register Failed',
         );
       }
     }
+    //====================  EndEvent  ========================
 
     return Scaffold(
       backgroundColor: Colors.blue,

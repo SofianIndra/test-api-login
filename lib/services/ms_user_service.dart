@@ -7,6 +7,7 @@ import '../models/user_model.dart';
 import '../theme/theme.dart';
 
 class MsUserService {
+  // Get MsUser Data from API
   Future<UserModel> getUser() async {
     final token = await AuthService().getToken();
     try {
@@ -15,13 +16,8 @@ class MsUserService {
         headers: {'Authorization': token},
       );
 
-      // print(token);
-
-      // print(res.body);
-
       if (res.statusCode == 200) {
         UserModel data = UserModel.fromJson(jsonDecode(res.body));
-
         return data;
       }
       throw jsonDecode(res.body)['message'];

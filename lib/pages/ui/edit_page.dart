@@ -7,8 +7,10 @@ class EditPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //======================  Variable  ======================
     final msRoleDetail = Provider.of<MsRoleDetailProvider>(context);
     final roleDetail = msRoleDetail.msRoleDetail;
+    //====================  EndVariable  =====================
 
     return Scaffold(
       backgroundColor: roleDetail.edit == true ? Colors.green : Colors.red,
