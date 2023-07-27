@@ -22,7 +22,7 @@ class MsRoleService {
 
       if (res.statusCode == 200) {
         MsRoleModel data = MsRoleModel.fromJson(jsonDecode(res.body));
-
+        print(data);
         return data;
       }
       throw jsonDecode(res.body)['message'];

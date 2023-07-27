@@ -22,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final msUserProvider = Provider.of<MsUserProvider>(context);
     final msRoleProvider = Provider.of<MsRoleProvider>(context);
     final user = msUserProvider.msUser;
-    final role = msRoleProvider.msRole;
+    final role = msRoleProvider.msRoleTest;
     return Scaffold(
       backgroundColor: Colors.cyan,
       body: Center(

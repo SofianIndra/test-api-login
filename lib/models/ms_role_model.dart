@@ -19,8 +19,8 @@ class MsRoleModel {
     this.ordinal,
     this.modifiedAt,
     this.createdAt,
-    this.createdBy,
     this.modifiedBy,
+    this.createdBy,
   });
 
   factory MsRoleModel.fromJson(Map<String, dynamic> json) => MsRoleModel(
@@ -30,10 +30,14 @@ class MsRoleModel {
         alias: json['alias'],
         isActive: json['is_active'],
         ordinal: json['ordinal'],
-        modifiedAt: json['modified_at'],
-        createdAt: json['created_at'],
         modifiedBy: json['modified_by'],
         createdBy: json['created_by'],
+        createdAt: json['created_at'] != ''
+            ? DateTime.parse(json['created_at'])
+            : null,
+        modifiedAt: json['modified_at'] != ''
+            ? DateTime.parse(json['modified_at'])
+            : null,
       );
 
   Map<String, dynamic> toJson() {
@@ -44,10 +48,10 @@ class MsRoleModel {
       'alias': alias,
       'is_active': isActive,
       'ordinal': ordinal,
+      'modified_by': modifiedBy,
+      'created_by': createdAt,
       'modified_at': modifiedAt,
       'created_at': createdAt,
-      'modified_by': modifiedBy,
-      'created_by': createdBy,
     };
   }
 }

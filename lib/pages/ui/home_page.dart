@@ -6,28 +6,27 @@ import 'package:test_login_api/services/auth_service.dart';
 
 import '../../providers/ms_role_provider.dart';
 
-class SuccessPage extends StatefulWidget {
-  const SuccessPage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<SuccessPage> createState() => _SuccessPageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _SuccessPageState extends State<SuccessPage> {
+class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     final msUserProvider = Provider.of<MsUserProvider>(context, listen: false);
     msUserProvider.getMsUserApi();
 
-    final msRoleProvider = Provider.of<MsRoleProvider>(context, listen: false);
-
-    msRoleProvider.getMsRole(context, msUserProvider.msUser.roleId);
-    print(msRoleProvider.msRole.roleName);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final msRoleProvider = Provider.of<MsRoleProvider>(context, listen: false);
+    final msUserProvider = Provider.of<MsUserProvider>(context, listen: false);
+
     return Scaffold(
       backgroundColor: Colors.green,
       body: Column(
@@ -62,6 +61,10 @@ class _SuccessPageState extends State<SuccessPage> {
                 ButtonWidget(
                   onTap: () {
                     Navigator.pushNamed(context, '/profile');
+
+                    msRoleProvider.getMsRole(
+                        context, msUserProvider.msUser.roleId);
+                    // print(msRoleProvider.msRole.roleName);
                   },
                   title: 'Profile Page',
                 ),
